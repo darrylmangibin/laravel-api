@@ -50,7 +50,7 @@ class ProductController extends Controller
         $product->price = $request->price;
         $product->stock = $request->stock;
         $product->discount = $request->discount;
-        
+
         $product->save();
 
         return response([
@@ -77,7 +77,6 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
     }
 
     /**
@@ -89,7 +88,14 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        $request['detail'] = $request->description;
+        unset($request['description']);
+
+        $product->update($request->all());
+
+        return response([
+            'data' => new ProductResource($product)
+        ], Response::HTTP_OK);
     }
 
     /**
